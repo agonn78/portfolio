@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <title>Ewan MAS - Portfolio</title>
+</head>
+<body>
+    
+
+    <!-- Side bar-->
+    <div class="flex flex-col w-64 h-screen bg-gray-800 text-gray-100">
+        <div class="flex flex-col items-center justify-center h-24 border-b border-gray-700">
+            <img src="IMG_1197-min.PNG" class="w-10 h-10 rounded-full" alt="Ewan MAS">
+            <div class="text-2xl font-semibold">Ewan MAS</div>
+        </div>
+        <div class="overflow-y-auto overflow-x-hidden flex-grow">
+            <ul class="flex flex-col py-4 space-y-1">
+                <li>
+                    <a href="index.html" class="px-6 py-3 flex items-center text-gray-100 hover:bg-gray-900">
+                        <span class="mx-1">🏠</span>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="about.html" class="px-6 py-3 flex items-center text-gray-200 hover:bg-gray-900">
+                        <span class="mx-1">🤴</span>
+                        <span>A propos de moi</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="projets.html" class="px-6 py-3 flex items-center text-gray-200 bg-gray-900">
+                        <span class="mx-1">📁</span>
+                        <span>Mes projets</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="px-6 py-3 flex items-center text-gray-200 hover:bg-gray-900">
+                        <span class="mx-1">📨</span>
+                        <span>Me contacter</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="flex items-center justify-center h-20 border-t border-gray-700">
+            <button onclick="downloadCV();" class="px-6 py-3 bg-gray-900 text-gray-100 rounded hover:bg-blue-800 transition-all">👨‍💼 Télécharger mon CV</button>
+        </div>
+    </div>
+
+
+   <!-- Content -->
+
+   <section class="flex flex-col flex-grow h-screen overflow-x-hidden">
+        <div class="flex items-center justify-between h-14 border-b">
+            <div class="px-6">🏠 Home > 🤴 A propos de moi</div>
+            <div class="px-6">🌙</div>
+        </div>
+
+        <!-- Skills -->
+        <div class="flex flex-col p-6 flex-grow">
+            <div class="text-4xl font-semibold mb-6">🏗️ Mes projets</div>
+            <!-- Card -->
+            <div class="flex flex-row gap-7">
+                <div class="flex flex-col items-center justify-evenly bg-gray-200 p-4 rounded-lg p-8">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShBRFXeIUSzhnaZlFRCWNhs_QXtyCmwj4CAQ&s" class="w-48 h-48 rounded-full mb-4" alt=" Casino Le Ruhl">
+                    <div class="text-xl font-semibold">Uno</div>
+                    <div>Création d'un jeu de Uno en Java</div>
+                    <i>Utilisation de WebSocket, Laravel et autres librairies..</i>
+                    <a href="https://github.com/agonn78/uno" class="mt-4 text-white bg-blue-500 rounded p-3 hover:bg-blue-600" target="_blank">Voir le projet sur github</a>
+                </div>
+
+                <div class="flex flex-col items-center justify-evenly bg-gray-200 p-4 rounded-lg p-8">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJU_1vS1TGPCrGIrnly55uflMlC6tTNxkdjA&s" class="w-48 h-48 rounded-full mb-4" alt=" Casino Le Ruhl">
+                    <div class="text-xl font-semibold">Application mobile</div>
+                    <div>Création d'une application mobile</div>
+                    <i>Cette application était une application mobile <br>de réservation de voiture de luxe</i>
+                    <a href="https://github.com/agonn78/filrougeIUT/tree/master" class="mt-4 text-white bg-blue-500 rounded p-3 hover:bg-blue-600" target="_blank">Voir le projet sur github</a>
+                </div>
+            </div>
+
+            
+        </div>
+
+        <div class="flex items-center justify-center h-14 border-t">
+            <div>© 2024 Ewan MAS</div>
+        </div>
+    </section>
+
+
+
+</body>
+
+<script>
+    function downloadCV() {
+        window.open('CV.pdf', '_blank');
+    }
+</script>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <title>Ewan MAS - Portfolio</title>
+</head>
+<body>
+    
+
+    <!-- Side bar-->
+    <div class="flex flex-col w-64 h-screen bg-gray-800 text-gray-100">
+        <div class="flex flex-col items-center justify-center h-24 border-b border-gray-700">
+            <img src="IMG_1197-min.PNG" class="w-10 h-10 rounded-full" alt="Ewan MAS">
+            <div class="text-2xl font-semibold">Ewan MAS</div>
+        </div>
+        <div class="overflow-y-auto overflow-x-hidden flex-grow">
+            <ul class="flex flex-col py-4 space-y-1">
+                <li>
+                    <a href="index.html" class="px-6 py-3 flex items-center bg-gray-900 text-gray-100">
+                        <span class="mx-1">🏠</span>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="about.html" class="px-6 py-3 flex items-center text-gray-200 hover:bg-gray-900">
+                        <span class="mx-1">🤴</span>
+                        <span>A propos de moi</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="projets.html" class="px-6 py-3 flex items-center text-gray-200 hover:bg-gray-900">
+                        <span class="mx-1">📁</span>
+                        <span>Mes projets</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="px-6 py-3 flex items-center text-gray-200 hover:bg-gray-900">
+                        <span class="mx-1">📨</span>
+                        <span>Me contacter</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="flex items-center justify-center h-20 border-t border-gray-700">
+            <button onclick="downloadCV();" class="px-6 py-3 bg-gray-900 text-gray-100 rounded hover:bg-blue-800 transition-all">👨‍💼 Télécharger mon CV</button>
+        </div>
+    </div>
+
+
+    <!-- Content -->
+    <div class="flex flex-col flex-grow h-screen overflow-x-hidden">
+        <div class="flex items-center justify-between h-14 border-b">
+            <div class="px-6">🏠 Home</div>
+            <div class="px-6">🌙</div>
+        </div>
+
+        <!-- Jumbotron -->
+        <div class="flex items-center justify-center h-96 bg-gray-100 jumbotron bg-cover bg-no-repeat"></div>
+
+        <div class="flex-grow p-10">
+            <div class="text-4xl font-semibold">🏠 Bienvenue sur mon portfolio</div>
+            <div class="mt-4 text-gray-500">Je suis Ewan MAS, un développeur web passionné par la programmation et le design. Je suis actuellement en BUT Informatique à l'université de Sophia Antipolis</div>
+            <div class="mt-4 text-gray-500">
+                Dans ce portfolio, vous trouverez mes projets personnels, mes compétences et mes expériences professionnelles. N'hésitez pas à me contacter si vous avez des questions ou si vous souhaitez travailler avec moi.
+            </div>
+            <div class="mt-4 text-gray-500">Bonne visite !</div>
+        
+        </div>
+
+        <!-- Réseaux -->
+        <div class="flex items-center justify-center h-20">
+            <a href="https://www.linkedin.com/in/ewan-mas-5576a7246?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" class="px-4 py-2 mx-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all" target="_blank">LinkedIn</a>
+            <a href="https://github.com/agonn78" class="px-4 py-2 mx-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all" target="_blank">GitHub</a>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex items-center justify-center h-14 border-t">
+            <div>© 2024 Ewan MAS</div>
+        </div>
+    </div>
+
+
+
+</body>
+
+<script>
+    function downloadCV() {
+        window.open('CV.pdf', '_blank');
+    }
+</script>
+</html>
