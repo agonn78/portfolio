@@ -11,30 +11,30 @@
     <h1>Orientation du smartphone</h1>
     
     <script>
-        if (window.DeviceOrientationEvent) {
-            window.addEventListener('deviceorientation', function(event) {
-                var alpha = event.alpha; // rotation autour de l'axe Z
-                var beta = event.beta;   // rotation autour de l'axe X
-                var gamma = event.gamma; // rotation autour de l'axe Y
+        async function getOrientation(à)
+        {
+            if (!window.DeviceOrientationEvent || !window.DeviceOrientationEvent.requestPermission) {
+                // Si l'événement de l'orientation n'est pas pris en charge
+                console.log("Device Orientation not supported");
+                return;
+            }
 
-                document.getElementById('alpha').textContent = 'Alpha: ' + alpha;
-                document.getElementById('beta').textContent = 'Beta: ' + beta;
-                document.getElementById('gamma').textContent = 'Gamma: ' + gamma;
-            }, false);
-        } else {
-            document.getElementById('orientation-info').textContent = 'L\'API de l\'orientation n\'est pas supportée par ce navigateur.';
-        }
+            let permission = await DeviceOrientationEvent.requestPermission();
+            if (permission !== 'granted') {
+                console.log("Permission not granted");
+                return;
+            }
 
-        if (window.DeviceMotionEvent) {
-            window.addEventListener('devicemotion', function(event) {
-                var acceleration = event.acceleration;
-                var translation = event.translation;
+            window.addEventListener('deviceorientation', (event) => {
+                document.getElementById('alpha').innerText = 'Alpha: ' + event.alpha;
+                document.getElementById('beta').innerText = 'Beta: ' + event.beta;
+                document.getElementById('gamma').innerText = 'Gamma: ' + event.gamma;
+            });
 
-                document.getElementById('acceleration').textContent = 'Accélération: ' + JSON.stringify(acceleration);
-                document.getElementById('translation').textContent = 'Translation: ' + JSON.stringify(translation);
-            }, false);
-        } else {
-            document.getElementById('orientation-info').textContent = 'L\'API de mouvement n\'est pas supportée par ce navigateur.';
+            window.addEventListener('devicemotion', (event) => {
+                document.getElementById('acceleration').innerText = 'Accélération: ' + JSON.stringify(event.acceleration);
+                document.getElementById('translation').innerText = 'Translation: ' + JSON.stringify(event.translation);
+            });
         }
     </script>
 
