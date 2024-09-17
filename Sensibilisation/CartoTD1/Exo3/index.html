@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Touch Events</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 
 <style>
@@ -34,52 +35,53 @@
 </style>
 
 <body>
-    
     <h1>Touch Events</h1>
     
     <div id="touch-info">
         <p id="touch-status">Aucun contact détecté.</p>
     </div>
 
-    <div id="canva"></div>
-
-    <script type="text/javascript">
-        const canvas = document.getElementById('canva');
-        const ctx = canvas.getContext('2d');
-        let drawing = false;
-        
-        canvas.addEventListener('touchstart', (event) => {
-            drawing = true;
-            document.getElementById('touch-status').textContent = 'Contact détecté.';
-            console.log(event.touches);
-            ctx.beginPath();
-            ctx.moveTo(event.touches[0].clientX, event.touches[0].clientY);
-        });
-
-        canvas.addEventListener('touchmove', (event) => {
-            if (drawing) {
-                ctx.lineTo(event.touches[0].clientX, event.touches[0].clientY);
-                ctx.stroke();
-            }
-        });
-
-        canvas.addEventListener('touchend', () => {
-            drawing = false;
-            document.getElementById('touch-status').textContent = 'Aucun contact détecté.';
-            ctx.closePath();
-        });
-
-        canvas.addEventListener('touchcancel', () => {
-            drawing = false;
-            document.getElementById('touch-status').textContent = 'Aucun contact détecté.';
-            ctx.closePath();
-        });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            canvas.width = canvas.clientWidth;
-            canvas.height = canvas.clientHeight;
-            alert("Canvas dimensions set.");
-        });
-    </script>
+    <div id="canva">
+        <canvas id="canva" width="600" height="300"></canvas>
+    </div>
 </body>
+
+
+<script>
+    const canvas = document.getElementById('canva');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+    console.log('Canvas initialisé.');
+    
+    if ('ontouchstart' in window) {
+        canvas.addEventListener('touchstart', startDrawing);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', stopDrawing);
+        console.log('Événements tactiles supportés.');
+    } else {
+        document.getElementById('touch-status').textContent = 'Ce navigateur ne supporte pas les événements tactiles.';
+        console.log('Ce navigateur ne supporte pas les événements tactiles.');
+    }
+
+    function startDrawing(event) {
+        drawing = true;
+        ctx.beginPath();
+        const touch = event.touches[0];
+        ctx.moveTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
+        document.getElementById('touch-status').textContent = 'Contact détecté.';
+    }
+
+    function draw(event) {
+        if (!drawing) return;
+        const touch = event.touches[0];
+        ctx.lineTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
+        ctx.stroke();
+    }
+
+    function stopDrawing() {
+        drawing = false;
+        ctx.closePath();
+        document.getElementById('touch-status').textContent = 'Aucun contact détecté.';
+    }
+</script>
 </html>
