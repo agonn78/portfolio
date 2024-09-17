@@ -47,33 +47,46 @@
         const canvas = document.getElementById('canva');
         const ctx = canvas.getContext('2d');
         let drawing = false;
-        // Vérification de la prise en charge des événements tactiles
-        if ('ontouchstart' in window) {
-            document.addEventListener('touchstart', function(event) {
-                document.getElementById('touch-status').textContent = 'Contact détecté !';
-                drawing = true;
-                ctx.beginPath();
-                const touch = event.touches[0];
-                ctx.moveTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
-            });
+        
+        canvas.addEventListener('touchstart', (event) => {
+            drawing = true;
+            document.getElementById('touch-status').textContent = 'Contact détecté.';
+            ctx.beginPath();
+            ctx.moveTo(event.touches[0].clientX, event.touches[0].clientY);
+        });
 
-            document.addEventListener('touchend', function(event) {
-                document.getElementById('touch-status').textContent = 'Contact terminé.';
-                drawing = false;
-                ctx.closePath();
-            });
+        canvas.addEventListener('touchmove', (event) => {
+            if (drawing) {
+                ctx.lineTo(event.touches[0].clientX, event.touches[0].clientY);
+                ctx.stroke();
+            }
+        });
 
-            document.addEventListener('touchmove', function(event) {
-                document.getElementById('touch-status').textContent = 'Déplacement du contact.';
-                if (drawing) {
-                    const touch = event.touches[0];
-                    ctx.lineTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
-                    ctx.stroke();
-                }
-            });
-        } else {
-            document.getElementById('touch-status').textContent = 'Les événements tactiles ne sont pas supportés par ce navigateur.';
-        }
+        canvas.addEventListener('touchend', () => {
+            drawing = false;
+            document.getElementById('touch-status').textContent = 'Aucun contact détecté.';
+            ctx.closePath();
+        });
+
+        canvas.addEventListener('touchcancel', () => {
+            drawing = false;
+            document.getElementById('touch-status').textContent = 'Aucun contact détecté.';
+            ctx.closePath();
+        });
+
+        // Prevent default touch behavior
+        canvas.addEventListener('touchstart', (event) => {
+            event.preventDefault();
+        });
+
+        canvas.addEventListener('touchmove', (event) => {
+            event.preventDefault();
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+        });
     </script>
 </body>
 </html>
