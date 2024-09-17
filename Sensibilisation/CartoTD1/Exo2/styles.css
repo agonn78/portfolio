@@ -1,0 +1,36 @@
+body, * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#alpha {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#beta {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#gamma {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#acceleration {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#translation {
+    text-align: center;
+    margin: 20px 0;
+}
