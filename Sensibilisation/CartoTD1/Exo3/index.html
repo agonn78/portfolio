@@ -43,7 +43,7 @@
 
     <div id="canva"></div>
 
-    <script>
+    <script type="text/javascript">
         const canvas = document.getElementById('canva');
         const ctx = canvas.getContext('2d');
         let drawing = false;
@@ -51,6 +51,7 @@
         canvas.addEventListener('touchstart', (event) => {
             drawing = true;
             document.getElementById('touch-status').textContent = 'Contact détecté.';
+            console.log(event.touches);
             ctx.beginPath();
             ctx.moveTo(event.touches[0].clientX, event.touches[0].clientY);
         });
@@ -74,18 +75,10 @@
             ctx.closePath();
         });
 
-        // Prevent default touch behavior
-        canvas.addEventListener('touchstart', (event) => {
-            event.preventDefault();
-        });
-
-        canvas.addEventListener('touchmove', (event) => {
-            event.preventDefault();
-        });
-
         document.addEventListener("DOMContentLoaded", function() {
             canvas.width = canvas.clientWidth;
             canvas.height = canvas.clientHeight;
+            console.log("Canvas dimensions set.");
         });
     </script>
 </body>
