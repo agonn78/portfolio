@@ -11,7 +11,7 @@
     <h1>Orientation du smartphone</h1>
     
     <script>
-        async function getOrientation(à)
+        async function getOrientation()
         {
             if (!window.DeviceOrientationEvent || !window.DeviceOrientationEvent.requestPermission) {
                 // Si l'événement de l'orientation n'est pas pris en charge
@@ -36,6 +36,8 @@
                 document.getElementById('translation').innerText = 'Translation: ' + JSON.stringify(event.translation);
             });
         }
+
+        getOrientation();
     </script>
 
     <div id="orientation-info">
