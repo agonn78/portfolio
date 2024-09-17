@@ -13,6 +13,8 @@
         <button id="getLocation">Obtenir ma position</button>
         <p id="status"></p>
         <p id="coordinates"></p>
+        <p id="vitesse"></p>
+        <p id="date"></p>
 
         <script>
             document.getElementById('getLocation').addEventListener('click', function() {
@@ -26,14 +28,18 @@
             function showPosition(position) {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
+                const altitude = position.coords.altitude;
                 document.getElementById('status').innerText = "Position obtenue :";
-                document.getElementById('coordinates').innerText = "Latitude: " + latitude + ", Longitude: " + longitude;
+                document.getElementById('coordinates').innerText = "Latitude: " + latitude + ", Longitude: " + longitude + ", Altitude: " + (altitude ? altitude + " m" : "Non disponible");
+                document.getElementById('vitesse').innerText = "Vitesse: " + (position.coords.speed ? position.coords.speed + " m/s" : "Non disponible");
+                document.getElementById('date').innerText = "Date: " + new Date(position.timestamp).toLocaleString();
+
             }
 
             function showError(error) {
                 switch(error.code) {
                     case error.PERMISSION_DENIED:
-                        document.getElementById('status').innerText = "L'utilisateur a refusé la demande de géolocalisation.";
+                        document.getElementById('status').innerText = "Vous avez refusé la demande de géolocalisation.";
                         break;
                     case error.POSITION_UNAVAILABLE:
                         document.getElementById('status').innerText = "Les informations de position sont indisponibles.";

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orientation du smartphone</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <h1>Orientation du smartphone</h1>
+    
+    <script>
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', function(event) {
+                var alpha = event.alpha; // rotation autour de l'axe Z
+                var beta = event.beta;   // rotation autour de l'axe X
+                var gamma = event.gamma; // rotation autour de l'axe Y
+
+                document.getElementById('alpha').textContent = 'Alpha: ' + alpha;
+                document.getElementById('beta').textContent = 'Beta: ' + beta;
+                document.getElementById('gamma').textContent = 'Gamma: ' + gamma;
+            }, false);
+        } else {
+            document.getElementById('orientation-info').textContent = 'L\'API de l\'orientation n\'est pas supportée par ce navigateur.';
+        }
+
+        if (window.DeviceMotionEvent) {
+            window.addEventListener('devicemotion', function(event) {
+                var acceleration = event.acceleration;
+                var translation = event.translation;
+
+                document.getElementById('acceleration').textContent = 'Accélération: ' + JSON.stringify(acceleration);
+                document.getElementById('translation').textContent = 'Translation: ' + JSON.stringify(translation);
+            }, false);
+        } else {
+            document.getElementById('orientation-info').textContent = 'L\'API de mouvement n\'est pas supportée par ce navigateur.';
+        }
+    </script>
+
+    <div id="orientation-info">
+        <p id="alpha">Alpha: 0</p>
+        <p id="beta">Beta: 0</p>
+        <p id="gamma">Gamma: 0</p>
+
+        <p id="acceleration">Accélération: </p>
+        <p id="translation">Translation: </p>
+    </div>
+</body>
+</html>
