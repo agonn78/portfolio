@@ -1,0 +1,28 @@
+body, * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#getLocation {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#status {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#coordinates {
+    text-align: center;
+    margin: 20px 0;
+}
