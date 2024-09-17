@@ -44,47 +44,36 @@
     <div id="canva"></div>
 
     <script>
+        const canvas = document.getElementById('canva');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
         // Vérification de la prise en charge des événements tactiles
         if ('ontouchstart' in window) {
             document.addEventListener('touchstart', function(event) {
                 document.getElementById('touch-status').textContent = 'Contact détecté !';
+                drawing = true;
+                ctx.beginPath();
+                const touch = event.touches[0];
+                ctx.moveTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
             });
 
             document.addEventListener('touchend', function(event) {
                 document.getElementById('touch-status').textContent = 'Contact terminé.';
+                drawing = false;
+                ctx.closePath();
             });
 
             document.addEventListener('touchmove', function(event) {
                 document.getElementById('touch-status').textContent = 'Déplacement du contact.';
+                if (drawing) {
+                    const touch = event.touches[0];
+                    ctx.lineTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
+                    ctx.stroke();
+                }
             });
         } else {
             document.getElementById('touch-status').textContent = 'Les événements tactiles ne sont pas supportés par ce navigateur.';
         }
-
-        const canvas = document.getElementById('canva');
-        const ctx = canvas.getContext('2d');
-
-        let drawing = false;
-
-        canvas.addEventListener('touchstart', function(event) {
-            drawing = true;
-            ctx.beginPath();
-            const touch = event.touches[0];
-            ctx.moveTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
-        });
-
-        canvas.addEventListener('touchmove', function(event) {
-            if (drawing) {
-                const touch = event.touches[0];
-                ctx.lineTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
-                ctx.stroke();
-            }
-        });
-
-        canvas.addEventListener('touchend', function(event) {
-            drawing = false;
-            ctx.closePath();
-        });
     </script>
 </body>
 </html>
