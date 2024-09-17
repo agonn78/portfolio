@@ -10,37 +10,6 @@
     
     <h1>Orientation du smartphone</h1>
     
-    <script>
-        async function getOrientation()
-        {
-            if (!window.DeviceOrientationEvent || !window.DeviceOrientationEvent.requestPermission) {
-                // Si l'événement de l'orientation n'est pas pris en charge
-                console.log("Device Orientation not supported");
-                return;
-            }
-
-            let permission = await DeviceOrientationEvent.requestPermission();
-            if (permission !== 'granted') {
-                console.log("Permission not granted");
-                return;
-            }
-
-            window.addEventListener('deviceorientation', (event) => {
-                document.getElementById('alpha').innerText = 'Alpha: ' + event.alpha;
-                document.getElementById('beta').innerText = 'Beta: ' + event.beta;
-                document.getElementById('gamma').innerText = 'Gamma: ' + event.gamma;
-            });
-
-            window.addEventListener('devicemotion', (event) => {
-                document.getElementById('acceleration').innerText = 'Accélération: ' + JSON.stringify(event.acceleration);
-                document.getElementById('translation').innerText = 'Translation: ' + JSON.stringify(event.translation);
-            });
-
-            console.log("Device Orientation event listener added");
-        }
-
-        getOrientation();
-    </script>
 
     <div id="orientation-info">
         <p id="alpha">Alpha: 0</p>
@@ -51,4 +20,37 @@
         <p id="translation">Translation: </p>
     </div>
 </body>
+
+<script>
+    async function getOrientation()
+    {
+        console.log("Requesting device orientation permission...");
+        if (!window.DeviceOrientationEvent || !window.DeviceOrientationEvent.requestPermission) {
+            // Si l'événement de l'orientation n'est pas pris en charge
+            console.log("Device Orientation not supported");
+            return;
+        }
+
+        let permission = await DeviceOrientationEvent.requestPermission();
+        if (permission !== 'granted') {
+            console.log("Permission not granted");
+            return;
+        }
+
+        window.addEventListener('deviceorientation', (event) => {
+            document.getElementById('alpha').innerText = 'Alpha: ' + event.alpha;
+            document.getElementById('beta').innerText = 'Beta: ' + event.beta;
+            document.getElementById('gamma').innerText = 'Gamma: ' + event.gamma;
+        });
+
+        window.addEventListener('devicemotion', (event) => {
+            document.getElementById('acceleration').innerText = 'Accélération: ' + JSON.stringify(event.acceleration);
+            document.getElementById('translation').innerText = 'Translation: ' + JSON.stringify(event.translation);
+        });
+
+        console.log("Device Orientation event listener added");
+    }
+
+    getOrientation();
+</script>
 </html>
