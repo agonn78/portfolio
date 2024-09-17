@@ -12,6 +12,8 @@
 
     <h1>Orientation du smartphone</h1>
 
+    <button id="start">Démarrer</button>
+
 
     <div id="orientation-info">
         <p id="alpha">Alpha: 0</p>
@@ -58,7 +60,7 @@
         }
     }
 
-    getOrientation();
+    document.getElementById('start').addEventListener('click', getOrientation);
 </script>
 
 </html>
