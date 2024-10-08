@@ -28,6 +28,20 @@
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+        window.onload = () => {
+            if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('deviceorientation', handleOrientation);
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                window.addEventListener('deviceorientation', handleOrientation);
+            }
+        };
+
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer();
@@ -64,11 +78,16 @@
         cube.castShadow = true;
         scene.add(cube);
 
-        window.addEventListener('deviceorientation', (event) => {
-            cube.rotation.x = event.beta * Math.PI / 180;
-            cube.rotation.y = event.gamma * Math.PI / 180;
-            cube.rotation.z = event.alpha * Math.PI / 180;
-        });
+        function handleOrientation(event)
+        {
+            const alpha = event.alpha;
+            const beta = event.beta;
+            const gamma = event.gamma;
+
+            cube.rotation.x = beta * Math.PI / 180;
+            cube.rotation.y = gamma * Math.PI / 180;
+            cube.rotation.z = alpha * Math.PI / 180;
+        }
 
         // Render
         function animate() {
