@@ -65,11 +65,9 @@
         scene.add(cube);
 
         window.addEventListener('deviceorientation', (event) => {
-            const alpha = event.alpha ? THREE.MathUtils.degToRad(event.alpha) : 0;
-            const beta = event.beta ? THREE.MathUtils.degToRad(event.beta) : 0;
-            const gamma = event.gamma ? THREE.MathUtils.degToRad(event.gamma) : 0;
-
-            cube.rotation.set(beta, gamma, alpha);
+            cube.rotation.x = event.beta * Math.PI / 180;
+            cube.rotation.y = event.gamma * Math.PI / 180;
+            cube.rotation.z = event.alpha * Math.PI / 180;
         });
 
         // Render
