@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <title>BabylonJS</title>
+</head>
+
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+    }
+
+    canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+        touch-action: none;
+    }
+</style>
+<body>
+    
+    <canvas id="renderCanvas"></canvas>
+    <script>
+
+        const canvas = document.getElementById('renderCanvas');
+        const engine = new BABYLON.Engine(canvas, true);
+
+        const createScene = function(){
+            const scene = new BABYLON.Scene(engine);
+            const camera = new BABYLON.FreeCamera('camera', new BABYLON.Vector3(0, 5, -10), scene);
+            camera.setTarget(BABYLON.Vector3.Zero());
+            camera.attachControl(canvas, true);
+
+            const light = new BABYLON.HemisphericLight('light', new BABYLON.Vector3(0, 1, 0), scene);
+            light.intensity = 0.7;
+
+            const sphere = BABYLON.MeshBuilder.CreateSphere('sphere', {diameter: 2}, scene);
+            sphere.position.y = 1;
+
+            const ground = BABYLON.MeshBuilder.CreateGround('ground', {width: 6, height: 6}, scene);
+
+            return { scene, sphere};
+        };
+
+        const { scene, sphere } = createScene();
+
+        window.onload = () => {
+            if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('deviceorientation', handleOrientation);
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                window.addEventListener('deviceorientation', handleOrientation);
+            }
+        };
+
+        function handleOrientation(event) {
+            const { alpha, beta, gamma } = event;
+            sphere.rotation.y = alpha;
+            sphere.rotation.x = beta;
+            sphere.rotation.z = gamma;
+        }
+
+        engine.runRenderLoop(() => {
+            scene.render();
+        });
+
+        window.addEventListener('resize', () => {
+            engine.resize();
+        });
+    </script>
+
+</body>
+</html>

@@ -78,6 +78,12 @@
         cube.castShadow = true;
         scene.add(cube);
 
+        loader.load('https://cdn.jsdelivr.net/gh/mrdoob/three.js/examples/models/gltf/RobotExpressive/RobotExpressive.glb', function (gltf) {
+            gltf.scene.scale.set(0.5, 0.5, 0.5);
+            gltf.scene.position.y = 0;
+            scene.add(gltf.scene);
+        });
+
         function handleOrientation(event)
         {
             const alpha = event.alpha;
