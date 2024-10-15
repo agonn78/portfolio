@@ -43,6 +43,12 @@
                     L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
                         .bindPopup('Vous êtes ici')
                         .openPopup();
+
+                    map.on('click', function(e) {
+                        var latitude = e.latlng.lat;
+                        var longitude = e.latlng.lng;
+                        window.parent.postMessage({latitude: latitude, longitude: longitude}, '*');
+                    })
         });
     </script>
 </body>

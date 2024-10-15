@@ -163,6 +163,36 @@
                 });
             });
 
+            window.addEventListener('message', function(event) {
+                
+                console.log(event);
+                if (event.data.latitude == undefined && event.data.longitude == undefined) {
+                    return;
+                }
+                var latitude = event.data.latitude;
+                var longitude = event.data.longitude;
+
+                let positionCartesian = convertToCartesian(latitude, longitude, 4);
+
+                let cameraAnimation = new BABYLON.Animation('cameraAnimation', 'position', 30, BABYLON.Animation.ANIMATIONTYPE_VECTOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                let keys = [];
+                keys.push({
+                    frame: 0,
+                    value: camera.position
+                });
+                keys.push({
+                    frame: 100,
+                    value: positionCartesian
+                });
+
+                cameraAnimation.setKeys(keys);
+                camera.animations = [];
+                camera.animations.push(cameraAnimation);
+
+                scene.beginAnimation(camera, 0, 100, false);
+                camera.setTarget(BABYLON.Vector3.Zero());
+            })
+
 
 
             engine.runRenderLoop(() => {
