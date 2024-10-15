@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <title>BabylonJS + Leaflet</title>
+</head>
+
+<style>
+    *, body {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        height: 100vh;
+        position: relative;
+        width: 100vw;
+        
+        font: 10px/1.5 Arial, sans-serif;
+        overflow: hidden;
+    }
+
+    #leaflet {
+        width: calc(100% - 70%);
+        height: calc(100% - 70%);
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        border-radius: 5px;
+        background-color: white;
+        transition: width 0.5s, height 0.5s;
+        border: 1px solid #ccc;
+    }
+
+    #leaflet:hover {
+        width: calc(100% - 55%);
+        height: calc(100% - 55%);
+        transition: width 0.5s, height 0.5s;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        z-index: 100;
+    }
+
+    canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+        touch-action: none;
+    }
+
+    #tooltip {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 5px;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        display: none;
+    }
+</style>
+<body>
+    
+    <div id="container">
+
+        <div id="leaflet">
+            <iframe id="map" src="leaflet.html" frameborder="0"></iframe>
+        </div>
+
+        <div id="tooltip"></div>
+        <canvas id="renderCanvas"></canvas>
+        <script>
+            const canvas = document.getElementById('renderCanvas');
+            const engine = new BABYLON.Engine(canvas, true);
+            const tooltip = document.getElementById('tooltip');
+
+            function convertToCartesian(latitude, longitude, radius) {
+                const phi = (-latitude + 90) * Math.PI / 180;
+                const theta = (180 + longitude) * Math.PI / 180;
+
+                const x = radius * Math.sin(phi) * Math.cos(theta);
+                const y = radius * Math.cos(phi);
+                const z = radius * Math.sin(phi) * Math.sin(theta);
+
+                return new BABYLON.Vector3(x, y, z);
+            }
+
+            const createScene = () => {
+                const scene = new BABYLON.Scene(engine);
+                
+                const camera = new BABYLON.ArcRotateCamera('camera', 0, 0, 10, BABYLON.Vector3.Zero(), scene);
+
+                camera.wheelDeltaPercentage = 0.01;
+                camera.setTarget(BABYLON.Vector3.Zero());
+                camera.attachControl(canvas, true);
+
+                const light = new BABYLON.HemisphericLight('light', new BABYLON.Vector3(0, 1, 0), scene);
+                light.intensity = 0.7;
+
+                const earth = BABYLON.MeshBuilder.CreateSphere('earth', {diameter: 4}, scene);
+                earth.position.y = 0;
+
+                var earthMaterial = new BABYLON.StandardMaterial("earthMaterial", scene);
+                earthMaterial.diffuseTexture = new BABYLON.Texture("earth.jpg", scene);
+                earthMaterial.diffuseTexture.vScale = -1;
+                earthMaterial.diffuseTexture.uScale = -1;
+                earth.material = earthMaterial;
+
+                var earthAxis = new BABYLON.Vector3(Math.sin(23 * Math.PI/180), Math.cos(23 * Math.PI/180), 0);
+
+
+                return { scene, earth, camera};
+            }
+
+            const { scene, sphere, camera } = createScene();
+
+            //Récupération de ma position
+            /*navigator.geolocation.getCurrentPosition(function(position) {
+                
+                let positionCartesian = convertToCartesian(position.coords.latitude, position.coords.longitude, 2);
+
+                var marker = BABYLON.MeshBuilder.CreateSphere("marker", {diameter: 0.05}, scene);
+                marker.position = positionCartesian;
+            });*/
+
+            navigator.geolocation.getCurrentPosition(function(position) {
+                let positionCartesian = convertToCartesian(position.coords.latitude, position.coords.longitude, 7);
+
+                camera.position = positionCartesian;
+                camera.setTarget(BABYLON.Vector3.Zero());
+            });
+
+            var countries = fetch('https://restcountries.com/v3.1/all')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(country => {
+                    let positionCartesian = convertToCartesian(country.latlng[0], country.latlng[1], 2);
+
+                    var flag = new BABYLON.MeshBuilder.CreatePlane("flag", {width: 0.1, height: 0.1}, scene);
+
+                    var flagMaterial = new BABYLON.StandardMaterial("flagMaterial", scene);
+                    flagMaterial.diffuseTexture = new BABYLON.Texture(country.flags.png, scene);
+
+                    flag.material = flagMaterial;
+                    flag.lookAt(BABYLON.Vector3.Zero());
+                    flag.position = positionCartesian;
+                    flag.actionManager = new BABYLON.ActionManager(scene);
+                    flag.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function() {
+                       
+                        tooltip.style.display = 'block';
+                        tooltip.style.left = `${event.clientX}px`;
+                        tooltip.style.top = `${event.clientY}px`;
+                        tooltip.innerHTML = country.name.common;
+                    }));
+                });
+            });
+
+
+
+            engine.runRenderLoop(() => {
+                scene.render();
+            });
+
+            window.addEventListener('resize', () => {
+                engine.resize();
+            });
+        </script>
+    </div>
+</body>
+</html>

@@ -80,7 +80,6 @@
             });
 
 
-            //MapBox API, Nice to Marseille
             fetch('https://api.mapbox.com/directions/v5/mapbox/driving/7.268332%2C43.700652%3B5.369823%2C43.296067?alternatives=true&geometries=geojson&language=en&overview=full&steps=true&access_token=pk.eyJ1IjoiY3YwNiIsImEiOiJjajg2MmpzYjcwbWdnMzNsc2NzM2l4eW0yIn0.TfDJipR5II7orUZaC848YA')
             .then(response => response.json())
             .then(data => {
