@@ -99,6 +99,7 @@
             const canvas = document.getElementById('renderCanvas');
             const engine = new BABYLON.Engine(canvas, true);
             const tooltip = document.getElementById('tooltip');
+            const iframe = document.getElementById('map');
 
             function convertToCartesian(latitude, longitude, radius) {
                 const phi = (-latitude + 90) * Math.PI / 180;
@@ -177,6 +178,8 @@
                         tooltip.style.left = `${event.clientX}px`;
                         tooltip.style.top = `${event.clientY}px`;
                         tooltip.innerHTML = country.name.common;
+
+                        iframe.contentWindow.postMessage({latitude: country.latlng[0], longitude: country.latlng[1]}, '*');
                     }));
                 });
             });

@@ -48,7 +48,16 @@
                         var latitude = e.latlng.lat;
                         var longitude = e.latlng.lng;
                         window.parent.postMessage({latitude: latitude, longitude: longitude}, '*');
-                    })
+                    });
+
+                    window.addEventListener('message', function(event) {
+                        var data = event.data;
+                        if (data.latitude && data.longitude) {
+                            L.marker([data.latitude, data.longitude]).addTo(map)
+                                .bindPopup('Vous avez cliqué ici')
+                                .openPopup();
+                        }
+                    });
         });
     </script>
 </body>
